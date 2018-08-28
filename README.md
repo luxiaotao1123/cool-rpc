@@ -52,3 +52,11 @@ CoolProxy coolProxy;
 Object obj = coolProxy.getInstance(Object.class);
 ```
 
+
+
+
+
+
+
+
+
