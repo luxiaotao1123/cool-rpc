@@ -27,8 +27,8 @@ mvn install:install-file -Dfile=cool-rpc-1.0.0.jar -DgroupId=com.cool -Dartifact
 ```
 <dependency>
     <groupId>com.cool</groupId>
-	<artifactId>cool-rpc</artifactId>
-	<version>1.0.0</version>
+    <artifactId>cool-rpc</artifactId>
+    <version>1.0.0</version>
 </dependency>
 ```
 
