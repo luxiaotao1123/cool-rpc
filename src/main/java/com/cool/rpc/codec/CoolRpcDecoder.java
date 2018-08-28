@@ -1,7 +1,7 @@
 package com.cool.rpc.codec;
 
 import com.cool.rpc.protocol.CoolProtocol;
-import com.cool.rpc.util.JavaSerialize;
+import com.cool.rpc.util.ProtostuffSerialize;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -32,7 +32,7 @@ public final class CoolRpcDecoder extends ByteToMessageDecoder implements CoolRp
         byte[] data = new byte[in.readableBytes()];
         in.readBytes(data);
 
-        CoolProtocol protocol = JavaSerialize.deserialize(data, protocolClass);
+        CoolProtocol protocol = ProtostuffSerialize.deserialize(data, protocolClass);
         data = null;
         out.add(protocol);
 

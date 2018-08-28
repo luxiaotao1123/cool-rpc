@@ -1,7 +1,7 @@
 package com.cool.rpc.codec;
 
 import com.cool.rpc.protocol.CoolProtocol;
-import com.cool.rpc.util.JavaSerialize;
+import com.cool.rpc.util.ProtostuffSerialize;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -23,7 +23,7 @@ public final class CoolRpcEncoder extends MessageToByteEncoder<Object> implement
     @Override
     protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
         if (protocolClass.isInstance(msg)){
-            byte[] data = JavaSerialize.serialize(msg);
+            byte[] data = ProtostuffSerialize.serialize(msg);
             out.writeBytes(data);
         }
     }
