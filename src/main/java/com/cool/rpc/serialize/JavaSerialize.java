@@ -1,4 +1,4 @@
-package com.cool.rpc.util;
+package com.cool.rpc.serialize;
 
 
 import java.io.*;

@@ -10,7 +10,7 @@ public class LongFactory {
         private static final AtomicLong INSTANCE = new AtomicLong();
     }
 
-    public static final AtomicLong getInstance() {
+    public static AtomicLong getInstance() {
         return SingletonHolder.INSTANCE;
     }
 

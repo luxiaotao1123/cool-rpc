@@ -1,7 +1,7 @@
 package com.cool.rpc.codec;
 
 import com.cool.rpc.protocol.CoolProtocol;
-import com.cool.rpc.util.ProtostuffSerialize;
+import com.cool.rpc.serialize.ProtostuffSerialize;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
