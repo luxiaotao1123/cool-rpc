@@ -1,5 +1,6 @@
 package com.cool.rpc.handler;
 
+import com.cool.rpc.CoolException;
 import com.cool.rpc.CoolRpcServer;
 import com.cool.rpc.protocol.CoolRequest;
 import com.cool.rpc.protocol.CoolResponse;
@@ -36,7 +37,7 @@ public class CoolServerHandler extends ChannelInboundHandlerAdapter {
 
     private Object invoke(CoolRequest request) throws Throwable{
         if (request == null){
-            throw new Throwable("cool rpc request not found");
+            throw new CoolException("cool rpc request not found");
         }
 
         String className = request.getClassName();
@@ -44,7 +45,7 @@ public class CoolServerHandler extends ChannelInboundHandlerAdapter {
         Object[] parameters = request.getParameters();
         Object service = CoolRpcServer.servicesMap.get(className);
         if (service == null){
-            throw new Throwable("cool rpc service not exist");
+            throw new CoolException("cool rpc service not exist");
         }
 
         Class<?> serviceClass = service.getClass();

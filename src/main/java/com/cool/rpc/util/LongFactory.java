@@ -13,4 +13,5 @@ public class LongFactory {
     public static final AtomicLong getInstance() {
         return SingletonHolder.INSTANCE;
     }
+
 }

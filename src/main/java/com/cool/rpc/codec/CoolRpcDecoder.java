@@ -11,9 +11,6 @@ import java.util.List;
 
 public final class CoolRpcDecoder extends ByteToMessageDecoder implements CoolRpcCodec {
 
-    private static final byte REQUEST_COMMAND = 0x00;
-    private static final byte RESPONSE_COMMAND = 0x01;
-
     private Class<? extends CoolProtocol> protocolClass;
 
     public CoolRpcDecoder(Class<? extends CoolProtocol> protocolClass){
@@ -40,6 +37,7 @@ public final class CoolRpcDecoder extends ByteToMessageDecoder implements CoolRp
             if (b == MESSAGE_SIGN){
                 if (i < allLen && (MESSAGE_SIGN == in.getByte(i + 1))){
                     startMarkIdx = i;
+                    break;
                 }
             }
         }
@@ -49,6 +47,7 @@ public final class CoolRpcDecoder extends ByteToMessageDecoder implements CoolRp
             in.discardReadBytes();
         }
 
+        in.skipBytes(2);
         long requestId = in.readLong();
         short len = in.readShort();
 

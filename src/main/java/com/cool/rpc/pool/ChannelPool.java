@@ -1,5 +1,6 @@
 package com.cool.rpc.pool;
 
+import com.cool.rpc.CoolException;
 import io.netty.channel.Channel;
 
 import java.util.Random;
@@ -22,7 +23,7 @@ public class ChannelPool {
 
     private ChannelPool(int maxChannelCount){
         if (maxChannelCount <= 0){
-            throw new RuntimeException("the channels pool can not be less then zero");
+            throw new CoolException("the channels pool can not be less then zero");
         }
         this.maxChannelCount = maxChannelCount;
         this.channels = new Channel[maxChannelCount];
