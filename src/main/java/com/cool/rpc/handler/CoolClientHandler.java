@@ -9,12 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CountDownLatch;
 
-/**
- * cool rpc client handler
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
+
 @ChannelHandler.Sharable
 public class CoolClientHandler extends ChannelInboundHandlerAdapter {
 

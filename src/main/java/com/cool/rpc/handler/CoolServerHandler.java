@@ -13,12 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-/**
- * cool rpc server handler
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
 @ChannelHandler.Sharable
 public class CoolServerHandler extends ChannelInboundHandlerAdapter {
 
@@ -31,7 +25,7 @@ public class CoolServerHandler extends ChannelInboundHandlerAdapter {
 
         try {
             Object result = invoke(request);
-            response.setRequestID(request.getRequestID());
+            response.setRequestId(request.getRequestId());
             response.setResult(result);
         } catch (Throwable error) {
             response.setError(error);

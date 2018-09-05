@@ -6,12 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-/**
- * service center registry (zookeeper)
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
 public class ZooKeeperServiceRegistry extends ServiceCenterAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(ZooKeeperServiceRegistry.class);

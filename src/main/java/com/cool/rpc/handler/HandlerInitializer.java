@@ -10,12 +10,6 @@ import io.netty.channel.socket.SocketChannel;
 import org.jboss.netty.channel.ChannelHandler;
 
 
-/**
- * init channel pipeline and add all handlers
- * @author Vincent
- * @wechat  luxiaotao1123
- * @data  2018/8/15
- */
 @ChannelHandler.Sharable
 public class HandlerInitializer extends ChannelInitializer<SocketChannel> {
 

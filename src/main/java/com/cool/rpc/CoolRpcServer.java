@@ -20,12 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-/**
- * cool rpc server bootstrap (netty)
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
 public class CoolRpcServer implements ApplicationContextAware {
 
     private static Logger log = LoggerFactory.getLogger(CoolRpcServer.class);
@@ -40,6 +34,8 @@ public class CoolRpcServer implements ApplicationContextAware {
     public static Map<String, Object> servicesMap ;
 
     {
+        serviceIP = "localhost";
+        port = 9523;
         bossGroup = new NioEventLoopGroup(1);
         workerGroup = new NioEventLoopGroup();
         bootstrap = new ServerBootstrap();
@@ -47,11 +43,14 @@ public class CoolRpcServer implements ApplicationContextAware {
         servicesMap = new HashMap<>(16);
     }
 
+    public CoolRpcServer(ServiceCenter serviceRegistry){
+        new CoolRpcServer(serviceRegistry, serviceIP, port);
+    }
+
     public CoolRpcServer(ServiceCenter serviceRegistry, String serviceIP, int port){
         this.serviceRegistry = serviceRegistry;
         this.serviceIP = serviceIP;
         this.port = port;
-
     }
 
     /**

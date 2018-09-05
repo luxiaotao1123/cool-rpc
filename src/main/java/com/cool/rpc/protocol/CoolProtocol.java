@@ -2,11 +2,16 @@ package com.cool.rpc.protocol;
 
 import java.io.Serializable;
 
-/**
- * cool rpc protocol
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
-public interface CoolProtocol extends Serializable {
+
+public abstract class CoolProtocol implements Serializable {
+
+    public long requestId;
+
+    public long getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(long requestId) {
+        this.requestId = requestId;
+    }
 }

@@ -6,12 +6,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
-/**
- * cool rpc encoder
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
+
 public final class CoolRpcEncoder extends MessageToByteEncoder<Object> implements CoolRpcCodec {
 
     private Class<? extends CoolProtocol> protocolClass;
@@ -23,7 +18,12 @@ public final class CoolRpcEncoder extends MessageToByteEncoder<Object> implement
     @Override
     protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
         if (protocolClass.isInstance(msg)){
+            CoolProtocol protocol = (CoolProtocol) msg;
             byte[] data = ProtostuffSerialize.serialize(msg);
+            out.writeByte(MESSAGE_SIGN);
+            out.writeByte(MESSAGE_SIGN);
+            out.writeLong(protocol.getRequestId());
+            out.writeShort(data.length);
             out.writeBytes(data);
         }
     }

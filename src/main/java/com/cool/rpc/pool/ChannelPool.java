@@ -2,18 +2,29 @@ package com.cool.rpc.pool;
 
 import io.netty.channel.Channel;
 
-import java.util.Optional;
 import java.util.Random;
 
 
 public class ChannelPool {
-//http://www.importnew.com/26701.html
+
+    private volatile static ChannelPool instance = null;
+    private static final int DEFAULT_MAX_CHANNEL_COUNT = 5;
+    private static String serverIp;
+    private static int port;
     private Channel[] channels;
     private Object[] locks;
     private int maxChannelCount = 0;
-    private static final int DEFAULT_MAX_CHANNEL_COUNT = 5;
 
-    public ChannelPool(int maxChannelCount){
+    static {
+        serverIp = "localhost";
+        port = 9523;
+    }
+
+    private ChannelPool(int maxChannelCount){
+        if (maxChannelCount <= 0){
+            throw new RuntimeException("the channels pool can not be less then zero");
+        }
+        this.maxChannelCount = maxChannelCount;
         this.channels = new Channel[maxChannelCount];
         this.locks = new Object[maxChannelCount];
         for (int i = 0;i < maxChannelCount;i++){
@@ -21,11 +32,26 @@ public class ChannelPool {
         }
     }
 
-    public ChannelPool(){
-        new ChannelPool(DEFAULT_MAX_CHANNEL_COUNT);
+    public static ChannelPool newChannelPool(){
+        return newChannelPool(serverIp, port, DEFAULT_MAX_CHANNEL_COUNT);
     }
 
-    public Channel syncChannel(String serverIp, int port){
+    public static ChannelPool newChannelPool(String serverIp, int port){
+        return newChannelPool(serverIp, port, DEFAULT_MAX_CHANNEL_COUNT);
+    }
+
+    public static ChannelPool newChannelPool(String serverIp, int port, int maxChannelCount){
+        ChannelPool.serverIp = serverIp;
+        ChannelPool.port = port;
+        if (instance == null){
+            synchronized (ChannelPool.class){
+                return new ChannelPool(maxChannelCount);
+            }
+        }
+        return instance;
+    }
+
+    public Channel syncChannel(){
         int idx = new Random().nextInt(this.maxChannelCount == 0 ? DEFAULT_MAX_CHANNEL_COUNT : maxChannelCount);
 
         Channel channel = this.channels[idx];
@@ -43,13 +69,11 @@ public class ChannelPool {
             if (connect != null){
                 channel = connect.getChannel();
             }
-
             channels[idx] = channel;
-
         }
-
         return channel;
     }
+
 
 
 }

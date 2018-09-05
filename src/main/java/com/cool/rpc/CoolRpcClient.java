@@ -18,12 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CountDownLatch;
 
-/**
- * cool rpc client bootstrap (netty)
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
+
 public class CoolRpcClient {
 
     private static Logger log = LoggerFactory.getLogger(CoolRpcClient.class);

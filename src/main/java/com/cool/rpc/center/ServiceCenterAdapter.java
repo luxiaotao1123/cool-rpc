@@ -1,11 +1,6 @@
 package com.cool.rpc.center;
 
-/**
- * service center adapter
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
+
 public abstract class ServiceCenterAdapter implements ServiceCenter{
 
     String host;

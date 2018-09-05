@@ -9,12 +9,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-/**
- * service center discovery (zookeeper)
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
+
 public class ZooKeeperServiceDiscovery extends ServiceCenterAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(ZooKeeperServiceDiscovery.class);
