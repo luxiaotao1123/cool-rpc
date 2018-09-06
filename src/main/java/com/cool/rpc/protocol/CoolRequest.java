@@ -1,15 +1,7 @@
 package com.cool.rpc.protocol;
 
 
-/**
- * cool rpc protocol (request)
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
-public class CoolRequest implements CoolProtocol {
-
-    private String requestID;
+public class CoolRequest extends CoolProtocol {
 
     private String className;
 
@@ -18,14 +10,6 @@ public class CoolRequest implements CoolProtocol {
     private Class<?>[] parameterTypes;
 
     private Object[] parameters;
-
-    public String getRequestID() {
-        return requestID;
-    }
-
-    public void setRequestID(String requestID) {
-        this.requestID = requestID;
-    }
 
     public String getClassName() {
         return className;

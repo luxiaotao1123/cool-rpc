@@ -1,14 +1,9 @@
-package com.cool.rpc.util;
+package com.cool.rpc.serialize;
 
 
 import java.io.*;
 
 
-/**
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
 public final class JavaSerialize {
 
     /**

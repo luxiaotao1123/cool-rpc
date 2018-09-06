@@ -1,13 +1,11 @@
 package com.cool.rpc.center;
 
 
-/**
- * service center
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
 public interface ServiceCenter {
+
+    int ZK_SESSION_TIMEOUT = 5000;
+    int ZK_CONNECTION_TIMEOUT = 1000;
+    String ZK_REGISTRY_PATH = "/cool";
 
     String discover(String serviceName);
 
