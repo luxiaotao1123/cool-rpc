@@ -47,5 +47,17 @@ public abstract class ServiceCenterAdapter implements ServiceCenter{
             throw new RuntimeException("the zookeeper host or port error");
         }
         return host+":"+String.valueOf(port);
-    };
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public String getPassWord() {
+        return passWord;
+    }
 }

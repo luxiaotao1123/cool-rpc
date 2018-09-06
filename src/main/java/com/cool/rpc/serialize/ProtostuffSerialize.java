@@ -6,11 +6,7 @@ import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 
-
 public final class ProtostuffSerialize {
-
-    private ProtostuffSerialize(){
-    }
 
     /**
      *  serialize init
@@ -47,6 +43,9 @@ public final class ProtostuffSerialize {
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage(), e);
         }
+    }
+
+    private ProtostuffSerialize(){
     }
 
 }

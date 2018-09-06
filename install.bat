@@ -11,7 +11,7 @@ call mvn package
 @echo ----------------------------------------------------------------
 @echo.
 
-call mvn install:install-file -Dfile=target/cool-rpc-1.0.0.jar -DgroupId=com.cool -DartifactId=cool-rpc -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true
+call mvn install:install-file -Dfile=target/cool-rpc-1.1.0.jar -DgroupId=com.cool -DartifactId=cool-rpc -Dversion=1.1.0 -Dpackaging=jar -DgeneratePom=true
 
 @echo.
 @echo -------------------------------------------------------------------------
@@ -29,7 +29,7 @@ call rd /s /Q target
 @echo ^<dependency^>
 @echo     ^<groupId^>com.cool^</groupId^>
 @echo     ^<artifactId^>cool-rpc^</artifactId^>
-@echo     ^<version^>1.0.0^</version^>
+@echo     ^<version^>1.1.0^</version^>
 @echo ^</dependency^>
 @echo.
 @echo.

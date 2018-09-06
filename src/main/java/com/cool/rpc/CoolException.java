@@ -4,7 +4,6 @@ package com.cool.rpc;
 public class CoolException extends  RuntimeException {
 
     public CoolException(){
-
     }
 
     public CoolException(String message){

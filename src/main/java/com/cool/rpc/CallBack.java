@@ -1,20 +1,31 @@
 package com.cool.rpc;
 
 
-import io.netty.buffer.ByteBuf;
+import com.cool.rpc.protocol.CoolProtocol;
+
+import java.util.concurrent.CountDownLatch;
 
 public class CallBack {
 
-    public volatile ByteBuf result;
+    private volatile CoolProtocol result;
+    private CountDownLatch countDownLatch;
 
-    public void receiveMessage(ByteBuf receiveBuf) throws Exception {
+    {
+        countDownLatch = new CountDownLatch(1);
+    }
 
+    public void receiveMessage(CoolProtocol protocol) {
         synchronized (this) {
-
-            result = receiveBuf;
-            this.notify();
+            this.result = protocol;
+            countDownLatch.countDown();
         }
     }
 
+    CoolProtocol getResult() {
+        return this.result;
+    }
 
+    CountDownLatch getCountDownLatch() {
+        return countDownLatch;
+    }
 }

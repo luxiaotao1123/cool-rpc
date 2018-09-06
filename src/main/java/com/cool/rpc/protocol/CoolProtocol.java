@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public abstract class CoolProtocol implements Serializable {
 
-    public long requestId;
+    long requestId;
 
     public long getRequestId() {
         return requestId;

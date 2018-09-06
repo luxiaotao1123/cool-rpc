@@ -1,6 +1,7 @@
 package com.cool.rpc.pool;
 
 import com.cool.rpc.CoolException;
+import com.cool.rpc.RpcClient;
 import io.netty.channel.Channel;
 
 import java.util.Random;
@@ -9,10 +10,11 @@ import java.util.Random;
 public class ChannelPool {
 
     private volatile static ChannelPool instance = null;
+
     private static final int DEFAULT_MAX_CHANNEL_COUNT = 5;
     private static String serverIp;
     private static int port;
-    private Channel[] channels;
+    private static Channel[] channels;
     private Object[] locks;
     private int maxChannelCount = 0;
 
@@ -23,10 +25,10 @@ public class ChannelPool {
 
     private ChannelPool(int maxChannelCount){
         if (maxChannelCount <= 0){
-            throw new CoolException("the channels pool can not be less then zero");
+            throw new CoolException("The channels pool can not be less then zero");
         }
         this.maxChannelCount = maxChannelCount;
-        this.channels = new Channel[maxChannelCount];
+        channels = new Channel[maxChannelCount];
         this.locks = new Object[maxChannelCount];
         for (int i = 0;i < maxChannelCount;i++){
             this.locks[i] = new Object();
@@ -46,16 +48,17 @@ public class ChannelPool {
         ChannelPool.port = port;
         if (instance == null){
             synchronized (ChannelPool.class){
-                return new ChannelPool(maxChannelCount);
+                instance = new ChannelPool(maxChannelCount);
+                return instance;
             }
         }
         return instance;
     }
 
-    public Channel syncChannel(){
+    public Channel getChannel(){
         int idx = new Random().nextInt(this.maxChannelCount == 0 ? DEFAULT_MAX_CHANNEL_COUNT : maxChannelCount);
 
-        Channel channel = this.channels[idx];
+        Channel channel = channels[idx];
         if (channel != null && channel.isActive()){
             return channel;
         }
@@ -66,7 +69,7 @@ public class ChannelPool {
                 return channel;
             }
 
-            NewCoolRpcClient connect = new NewCoolRpcClient(serverIp, port).connect();
+            RpcClient connect = new RpcClient(serverIp, port).connect();
             if (connect != null){
                 channel = connect.getChannel();
             }
@@ -74,7 +77,5 @@ public class ChannelPool {
         }
         return channel;
     }
-
-
 
 }
