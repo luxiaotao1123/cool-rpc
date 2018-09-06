@@ -66,7 +66,7 @@ public class ChannelPool {
                 return channel;
             }
 
-            CoolRpcClientPool connect = new CoolRpcClientPool(serverIp, port).connect();
+            NewCoolRpcClient connect = new NewCoolRpcClient(serverIp, port).connect();
             if (connect != null){
                 channel = connect.getChannel();
             }

@@ -2,7 +2,6 @@ package com.cool.rpc.pool;
 
 import com.cool.rpc.codec.CoolRpcDecoder;
 import com.cool.rpc.codec.CoolRpcEncoder;
-import com.cool.rpc.handler.CoolClientHandler;
 import com.cool.rpc.protocol.CoolRequest;
 import com.cool.rpc.protocol.CoolResponse;
 import io.netty.bootstrap.Bootstrap;
@@ -16,12 +15,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.CountDownLatch;
 
+public class NewCoolRpcClient {
 
-public class CoolRpcClientPool {
-
-    private static Logger log = LoggerFactory.getLogger(CoolRpcClientPool.class);
+    private static Logger log = LoggerFactory.getLogger(NewCoolRpcClient.class);
 
     private EventLoopGroup group;
     private Bootstrap bootstrap;
@@ -35,13 +32,13 @@ public class CoolRpcClientPool {
     }
 
 
-    public CoolRpcClientPool(String serviceIP, int port){
+    public NewCoolRpcClient(String serviceIP, int port){
         this.serviceIP = serviceIP;
         this.port = port;
     }
 
 
-    public CoolRpcClientPool connect(){
+    public NewCoolRpcClient connect(){
         try {
             bootstrap.group(group);
             bootstrap.channel(NioSocketChannel.class);
