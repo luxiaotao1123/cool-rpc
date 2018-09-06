@@ -2,6 +2,7 @@ package com.cool.rpc;
 
 import com.cool.rpc.annotation.CoolService;
 import com.cool.rpc.center.ServiceCenter;
+import com.cool.rpc.center.ServiceCenterAdapter;
 import com.cool.rpc.handler.HandlerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -10,8 +11,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -19,16 +18,8 @@ import org.springframework.context.ApplicationContextAware;
 import java.util.HashMap;
 import java.util.Map;
 
+public class RpcServer implements ApplicationContextAware {
 
-/**
- * cool rpc server bootstrap (netty)
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/27
- */
-public class CoolRpcServer implements ApplicationContextAware {
-
-    private static Logger log = LoggerFactory.getLogger(CoolRpcServer.class);
     private Channel channel;
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
@@ -40,6 +31,8 @@ public class CoolRpcServer implements ApplicationContextAware {
     public static Map<String, Object> servicesMap ;
 
     {
+        serviceIP = "localhost";
+        port = 9523;
         bossGroup = new NioEventLoopGroup(1);
         workerGroup = new NioEventLoopGroup();
         bootstrap = new ServerBootstrap();
@@ -47,11 +40,14 @@ public class CoolRpcServer implements ApplicationContextAware {
         servicesMap = new HashMap<>(16);
     }
 
-    public CoolRpcServer(ServiceCenter serviceRegistry, String serviceIP, int port){
+    public RpcServer(ServiceCenter serviceRegistry){
+        new RpcServer(serviceRegistry, serviceIP, port);
+    }
+
+    public RpcServer(ServiceCenter serviceRegistry, String serviceIP, int port){
         this.serviceRegistry = serviceRegistry;
         this.serviceIP = serviceIP;
         this.port = port;
-
     }
 
     /**
@@ -78,10 +74,8 @@ public class CoolRpcServer implements ApplicationContextAware {
         if (servicesMap != null && servicesMap.size() > 0){
             for (String beanName: servicesMap.keySet()){
                 serviceRegistry.register(beanName, serviceIP + ":" + String.valueOf(port));
-                log.info("register service name = {}", beanName);
             }
         }
-        log.info("TCP server started successfully, port：{}", port);
 
         channel.closeFuture().sync();
     }
@@ -102,7 +96,6 @@ public class CoolRpcServer implements ApplicationContextAware {
             workerGroup.shutdownGracefully();
         }
 
-        log.info("TCP server stopped successfully, port: {}", port);
     }
 
     /**
@@ -110,13 +103,33 @@ public class CoolRpcServer implements ApplicationContextAware {
      */
     @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
-        Map<String, Object> beans = ctx.getBeansWithAnnotation(CoolService.class);
-        if (beans != null && beans.size()>0){
-            for (Object bean : beans.values()){
+        Map<String, Object> services = ctx.getBeansWithAnnotation(CoolService.class);
+        if (services.size() > 0){
+            for (Object bean : services.values()){
                 String name = bean.getClass().getAnnotation(CoolService.class).value().getName();
                 servicesMap.put(name, bean);
             }
         }
+//        Map<String, ServiceCenter> centers = ctx.getBeansOfType(ServiceCenter.class);
+//
+//        do {
+//            if (centers.size() == 0){
+//                break;
+//            }
+//            for (Object center : centers.values()){
+//                if (!(center instanceof ServiceCenterAdapter)){
+//                    break;
+//                }
+//                ServiceCenterAdapter serviceCenter = (ServiceCenterAdapter)center;
+//                if (serviceCenter.getAddress() != null){
+//                    this.serviceIP = serviceCenter.getAddress();
+//                }
+//                if (serviceCenter.getPort() != 0){
+//                    this.port = serviceCenter.getPort();
+//                }
+//            }
+//        } while (false);
+
     }
 
 }

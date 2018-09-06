@@ -1,24 +1,12 @@
-package com.cool.rpc.util;
+package com.cool.rpc.serialize;
 
 
-import com.cool.rpc.protocol.CoolRequest;
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 
-import java.util.Arrays;
-
-/**
- * serialize tool
- * @auther Vincent
- * @wechat luxiaotao1123
- * @data 2018/8/24
- */
 public final class ProtostuffSerialize {
-
-    private ProtostuffSerialize(){
-    }
 
     /**
      *  serialize init
@@ -55,6 +43,9 @@ public final class ProtostuffSerialize {
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage(), e);
         }
+    }
+
+    private ProtostuffSerialize(){
     }
 
 }
