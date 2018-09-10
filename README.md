@@ -19,7 +19,7 @@ maven
 ## How to pack
 > clone代码后，在代码根目录下执行mvn命令:
 ~~~~
-mvn install:install-file -Dfile=cool-rpc-1.0.0.jar -DgroupId=com.cool -DartifactId=cool-rpc -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true
+mvn install:install-file -Dfile=cool-rpc-1.1.0.jar -DgroupId=com.cool -DartifactId=cool-rpc -Dversion=1.1.0 -Dpackaging=jar -DgeneratePom=true
 ~~~~
 
 ## How to dependency
@@ -30,7 +30,7 @@ mvn install:install-file -Dfile=cool-rpc-1.0.0.jar -DgroupId=com.cool -Dartifact
 <dependency>
     <groupId>com.cool</groupId>
     <artifactId>cool-rpc</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
