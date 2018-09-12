@@ -2,17 +2,17 @@
 
 ---
 
-### Description
+## Description
 这是一个简单、高效、可拓展的RPC框架
 
 [博客讲解](https://segmentfault.com/a/1190000016185800)
 
 
-### How to pack
+## How to pack
 > clone代码后，在项目根目录下执行**install.bat**即可:
 
 
-### How to use
+## How to use
 
 ##### 服务提供端
 
@@ -31,6 +31,11 @@ CoolProxy coolProxy;
 ```
 Object obj = coolProxy.getInstance(Object.class);
 ```
+
+## How to develop
+
+> clone代码之后，新建属于自己的分支，开发完之后push，等待master合并
+
 
 ### Thanks
 netty4+
