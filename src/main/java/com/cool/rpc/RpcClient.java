@@ -13,7 +13,7 @@ public class RpcClient {
     private EventLoopGroup group;
     private Bootstrap bootstrap;
     private Channel channel;
-    private String serviceIP;
+    private String host;
     private int port;
 
     {
@@ -22,8 +22,8 @@ public class RpcClient {
     }
 
 
-    public RpcClient(String serviceIP, int port){
-        this.serviceIP = serviceIP;
+    public RpcClient(String host, int port){
+        this.host = host;
         this.port = port;
     }
 
@@ -34,7 +34,7 @@ public class RpcClient {
                     .handler(new HandlerInitializer(false))
                     .option(ChannelOption.TCP_NODELAY, true);
 
-            channel = bootstrap.connect(serviceIP, port).sync().channel();
+            channel = bootstrap.connect(host, port).sync().channel();
             return this;
         } catch (Exception e){
             e.printStackTrace();
@@ -42,6 +42,7 @@ public class RpcClient {
         }
     }
 
+    @Deprecated
     public void down(){
         if (group != null){
             group.shutdownGracefully();

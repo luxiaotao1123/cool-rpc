@@ -12,14 +12,14 @@ public class ChannelPool {
     private volatile static ChannelPool instance = null;
 
     private static final int DEFAULT_MAX_CHANNEL_COUNT = 5;
-    private static String serverIp;
+    private static String host;
     private static int port;
     private static Channel[] channels;
     private Object[] locks;
     private int maxChannelCount = 0;
 
     static {
-        serverIp = "localhost";
+        host = "localhost";
         port = 9523;
     }
 
@@ -36,15 +36,15 @@ public class ChannelPool {
     }
 
     public static ChannelPool newChannelPool(){
-        return newChannelPool(serverIp, port, DEFAULT_MAX_CHANNEL_COUNT);
+        return newChannelPool(host, port, DEFAULT_MAX_CHANNEL_COUNT);
     }
 
     public static ChannelPool newChannelPool(String serverIp, int port){
         return newChannelPool(serverIp, port, DEFAULT_MAX_CHANNEL_COUNT);
     }
 
-    public static ChannelPool newChannelPool(String serverIp, int port, int maxChannelCount){
-        ChannelPool.serverIp = serverIp;
+    public static ChannelPool newChannelPool(String host, int port, int maxChannelCount){
+        ChannelPool.host = host;
         ChannelPool.port = port;
         if (instance == null){
             synchronized (ChannelPool.class){
@@ -69,7 +69,7 @@ public class ChannelPool {
                 return channel;
             }
 
-            RpcClient connect = new RpcClient(serverIp, port).connect();
+            RpcClient connect = new RpcClient(host, port).connect();
             if (connect != null){
                 channel = connect.getChannel();
             }

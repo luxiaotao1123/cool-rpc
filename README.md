@@ -2,12 +2,37 @@
 
 ---
 
-## Describe
-这是一个简单、高效可拓展的RPC框架
+### Description
+这是一个简单、高效、可拓展的RPC框架
 
 [博客讲解](https://segmentfault.com/a/1190000016185800)
 
-## Thanks
+
+### How to pack
+> clone代码后，在项目根目录下执行**install.bat**即可:
+
+
+### How to use
+
+##### 服务提供端
+
+> 如果你想在cool-rpc上开放一个api接口，在api接口实现类上添加@CoolService(api接口.class)注解
+
+##### 服务消费端
+
+> 如果你想调用cool-rpc上的开放接口，需在调用类中依赖注入CoolProxy，例如：
+
+```
+@Resource
+CoolProxy coolProxy;
+```
+> 之后在方法中使用getInstance()获取api接口代理实例即可，例如:
+
+```
+Object obj = coolProxy.getInstance(Object.class);
+```
+
+### Thanks
 netty4+
 
 spring
@@ -15,45 +40,6 @@ spring
 zookeeper
 
 maven
-
-## How to pack
-> clone代码后，在代码根目录下执行mvn命令:
-~~~~
-mvn install:install-file -Dfile=cool-rpc-1.1.0.jar -DgroupId=com.cool -DartifactId=cool-rpc -Dversion=1.1.0 -Dpackaging=jar -DgeneratePom=true
-~~~~
-
-## How to dependency
-
-> 项目pom中添加依赖：
-
-```
-<dependency>
-    <groupId>com.cool</groupId>
-    <artifactId>cool-rpc</artifactId>
-    <version>1.1.0</version>
-</dependency>
-```
-
-## How to use
-
-##### 服务提供端
-
-> 如果你想在cool-rpc上开放一个api，首先api接口需继承com.cool.rpc.annotation.RpcService接口，其次在api接口实现类上添加@CoolService(api接口.class)注解
-
-##### 服务消费端
-
-> 如果你想调用cool-rpc上的开放接口，在调用类中依赖注入CoolProxy，例如：
-
-```
-@Resource
-CoolProxy coolProxy;
-```
-> 在方法中使用getInstance()获取api接口代理实例，例如:
-
-```
-Object obj = coolProxy.getInstance(Object.class);
-```
-
 
 
 
