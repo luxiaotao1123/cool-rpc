@@ -23,6 +23,7 @@ public class CoolResponse extends CoolProtocol {
         this.result = result;
     }
 
+    @Deprecated
     public void sync(CoolResponse response){
         this.requestId = response.requestId;
         this.error = response.error;
