@@ -12,13 +12,15 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class RpcServer implements ApplicationContextAware {
+public class RpcServer implements ApplicationContextAware, InitializingBean, DisposableBean {
 
     private Channel channel;
     private EventLoopGroup bossGroup;
@@ -26,13 +28,16 @@ public class RpcServer implements ApplicationContextAware {
     private ServerBootstrap bootstrap;
     private HandlerInitializer handlerInitializer;
     private ServiceCenter serviceRegistry;
-    private String serviceIP;
-    private int port;
+    private static String host;
+    private static int port;
     public static Map<String, Object> servicesMap ;
 
-    {
-        serviceIP = "localhost";
+    static {
+        host = "localhost";
         port = 9523;
+    }
+
+    {
         bossGroup = new NioEventLoopGroup(1);
         workerGroup = new NioEventLoopGroup();
         bootstrap = new ServerBootstrap();
@@ -41,20 +46,26 @@ public class RpcServer implements ApplicationContextAware {
     }
 
     public RpcServer(ServiceCenter serviceRegistry){
-        new RpcServer(serviceRegistry, serviceIP, port);
+        this(serviceRegistry, RpcServer.host, RpcServer.port);
     }
 
-    public RpcServer(ServiceCenter serviceRegistry, String serviceIP, int port){
+    public RpcServer(ServiceCenter serviceRegistry, String host, int port){
         this.serviceRegistry = serviceRegistry;
-        this.serviceIP = serviceIP;
-        this.port = port;
+        RpcServer.host = host;
+        RpcServer.port = port;
+    }
+
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        initServer();
     }
 
     /**
      * start and init tcp server if ioc contain is booting
      */
     @SuppressWarnings("unchecked")
-    public void initServer() throws InterruptedException {
+    private void initServer() throws InterruptedException {
 
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
@@ -69,34 +80,17 @@ public class RpcServer implements ApplicationContextAware {
         // the most receive bytes ( 2048KB )
         bootstrap.childOption(ChannelOption.SO_RCVBUF, 1024 * 1024 * 2);
 
-        channel = bootstrap.bind(serviceIP,port).sync().channel();
+        channel = bootstrap.bind(host,port).sync().channel();
 
         if (servicesMap != null && servicesMap.size() > 0){
             for (String beanName: servicesMap.keySet()){
-                serviceRegistry.register(beanName, serviceIP + ":" + String.valueOf(port));
+                serviceRegistry.register(beanName, host + ":" + String.valueOf(port));
             }
         }
 
         channel.closeFuture().sync();
     }
 
-
-    /**
-     * close ioc contain and stop tcp server
-     */
-    public void stopServer(){
-
-        if (channel != null && channel.isActive()) {
-            channel.close();
-        }
-        if (bossGroup != null) {
-            bossGroup.shutdownGracefully();
-        }
-        if (workerGroup != null) {
-            workerGroup.shutdownGracefully();
-        }
-
-    }
 
     /**
      *  scan Annotation of CoolService
@@ -110,26 +104,23 @@ public class RpcServer implements ApplicationContextAware {
                 servicesMap.put(name, bean);
             }
         }
-//        Map<String, ServiceCenter> centers = ctx.getBeansOfType(ServiceCenter.class);
-//
-//        do {
-//            if (centers.size() == 0){
-//                break;
-//            }
-//            for (Object center : centers.values()){
-//                if (!(center instanceof ServiceCenterAdapter)){
-//                    break;
-//                }
-//                ServiceCenterAdapter serviceCenter = (ServiceCenterAdapter)center;
-//                if (serviceCenter.getAddress() != null){
-//                    this.serviceIP = serviceCenter.getAddress();
-//                }
-//                if (serviceCenter.getPort() != 0){
-//                    this.port = serviceCenter.getPort();
-//                }
-//            }
-//        } while (false);
 
+    }
+
+    /**
+     * close ioc contain and stop tcp server
+     */
+    @Override
+    public void destroy() throws Exception {
+        if (channel != null && channel.isActive()) {
+            channel.close();
+        }
+        if (bossGroup != null) {
+            bossGroup.shutdownGracefully();
+        }
+        if (workerGroup != null) {
+            workerGroup.shutdownGracefully();
+        }
     }
 
 }
