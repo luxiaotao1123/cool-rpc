@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
 @Component
 public @interface CoolService {
 
-    Class<? extends RpcService> value();
+    Class<?> value();
 
 }
