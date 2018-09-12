@@ -27,7 +27,6 @@ public class CoolInvocationHandler<T> implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
         CoolRequest request = new CoolRequest();
         request.setRequestId(LongFactory.getInstance().incrementAndGet());
         request.setClassName(method.getDeclaringClass().getName());
@@ -35,6 +34,9 @@ public class CoolInvocationHandler<T> implements InvocationHandler {
         request.setParameters(args);
         request.setParameterTypes(method.getParameterTypes());
 
+        if (serviceDiscovery.discover(cls.getName()) == null){
+            throw new CoolException("The rpc service not exits");
+        }
         String[] addr = serviceDiscovery.discover(cls.getName()).split(":",2);
         String serverIp = addr[0];
         int port = Integer.parseInt(addr[1]);
