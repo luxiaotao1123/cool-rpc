@@ -5,7 +5,7 @@
 ## Description
 这是一个简单、高效、可拓展的RPC框架
 
-[博客讲解](https://segmentfault.com/a/1190000016185800)
+[简单实战](https://github.com/luxiaotao1123/cool-rpc-demo)
 
 
 ## How to pack
@@ -36,8 +36,7 @@ Object obj = coolProxy.getInstance(Object.class);
 
 > clone代码之后，新建属于自己的分支，开发完之后push，等待master合并
 
-
-### Thanks
+## Thanks
 netty4+
 
 spring
